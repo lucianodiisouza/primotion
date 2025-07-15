@@ -2,56 +2,52 @@
 
 A lightweight, performant React library for adding smooth spring animations to any element. Built with TypeScript and optimized for modern React applications.
 
-## Features
+[![npm version](https://badge.fury.io/js/primotion.svg)](https://badge.fury.io/js/primotion)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
+## ✨ Features
 
 - 🎯 **Simple API** - Easy to use hooks and components
-- ⚡ **High Performance** - Uses `requestAnimationFrame` for smooth animations
+- ⚡ **High Performance** - Uses `requestAnimationFrame` for smooth 60fps animations
 - 🎨 **Flexible** - Animate any CSS property with spring physics
 - 📦 **Lightweight** - No external dependencies, just React
 - 🔧 **TypeScript** - Full TypeScript support with type safety
 - 🎪 **Preset Configurations** - Pre-configured spring settings for common use cases
+- 🚀 **Zero Configuration** - Works out of the box with any React project
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install primotion
 # or
 yarn add primotion
+# or
+pnpm add primotion
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Using the `useSpring` Hook
 
 ```tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useSpring } from 'primotion';
 
 function AnimatedCounter() {
-  const { value, animate } = useSpring({ from: 0, to: 100 });
+  const [count, setCount] = useState(0);
+  const { value, animate } = useSpring({ from: 0, to: count });
+
+  const increment = () => {
+    setCount(prev => prev + 1);
+    animate(count + 1);
+  };
 
   return (
     <div>
       <h1>{Math.round(value)}</h1>
-      <button onClick={() => animate(200)}>Animate to 200</button>
+      <button onClick={increment}>Increment</button>
     </div>
-  );
-}
-```
-
-### Using the `Spring` Component
-
-```tsx
-import React from 'react';
-import { Spring } from 'primotion';
-
-function AnimatedBox() {
-  return (
-    <Spring from={0} to={100} immediate>
-      <div style={{ padding: '20px', background: 'blue', color: 'white' }}>
-        This box will slide down from the top!
-      </div>
-    </Spring>
   );
 }
 ```
@@ -77,7 +73,24 @@ function App() {
 }
 ```
 
-## API Reference
+### Using the `Spring` Component
+
+```tsx
+import React from 'react';
+import { Spring } from 'primotion';
+
+function AnimatedBox() {
+  return (
+    <Spring from={0} to={100} immediate>
+      <div style={{ padding: '20px', background: 'blue', color: 'white' }}>
+        This box will slide down from the top!
+      </div>
+    </Spring>
+  );
+}
+```
+
+## 📚 API Reference
 
 ### `useSpring(options)`
 
@@ -85,21 +98,25 @@ A React hook that provides spring animation functionality.
 
 #### Options
 
-- `from` (number): Starting value (default: 0)
-- `to` (number): Target value (default: 0)
-- `config` (SpringConfig): Spring configuration
-- `immediate` (boolean): Start animation immediately (default: false)
-- `delay` (number): Delay before starting animation in ms (default: 0)
-- `onUpdate` (function): Callback called on each animation frame
-- `onComplete` (function): Callback called when animation completes
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `from` | `number` | `0` | Starting value |
+| `to` | `number` | `0` | Target value |
+| `config` | `SpringConfig` | `{}` | Spring configuration |
+| `immediate` | `boolean` | `false` | Start animation immediately |
+| `delay` | `number` | `0` | Delay before starting animation (ms) |
+| `onUpdate` | `(value: number) => void` | `undefined` | Callback on each animation frame |
+| `onComplete` | `() => void` | `undefined` | Callback when animation completes |
 
 #### Returns
 
-- `value` (number): Current animated value
-- `setValue` (function): Set value immediately
-- `animate` (function): Animate to a new value
-- `stop` (function): Stop current animation
-- `isAnimating` (boolean): Whether animation is currently running
+| Property | Type | Description |
+|----------|------|-------------|
+| `value` | `number` | Current animated value |
+| `setValue` | `(value: number) => void` | Set value immediately |
+| `animate` | `(to: number, config?: SpringConfig) => void` | Animate to a new value |
+| `stop` | `() => void` | Stop current animation |
+| `isAnimating` | `boolean` | Whether animation is currently running |
 
 ### `Spring` Component
 
@@ -107,16 +124,18 @@ A component that wraps elements with spring animation capabilities.
 
 #### Props
 
-- `from` (number): Starting value
-- `to` (number): Target value
-- `config` (SpringConfig): Spring configuration
-- `immediate` (boolean): Start animation immediately
-- `delay` (number): Delay before starting animation
-- `onUpdate` (function): Update callback
-- `onComplete` (function): Complete callback
-- `style` (object): Additional styles
-- `className` (string): CSS class name
-- `as` (string): HTML element to render (default: 'div')
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `from` | `number` | `0` | Starting value |
+| `to` | `number` | `0` | Target value |
+| `config` | `SpringConfig` | `{}` | Spring configuration |
+| `immediate` | `boolean` | `false` | Start animation immediately |
+| `delay` | `number` | `0` | Delay before starting animation |
+| `onUpdate` | `(value: number) => void` | `undefined` | Update callback |
+| `onComplete` | `() => void` | `undefined` | Complete callback |
+| `style` | `React.CSSProperties` | `{}` | Additional styles |
+| `className` | `string` | `''` | CSS class name |
+| `as` | `keyof JSX.IntrinsicElements` | `'div'` | HTML element to render |
 
 ### `FadeIn` Component
 
@@ -124,13 +143,15 @@ A component for fade-in animations.
 
 #### Props
 
-- `children` (ReactNode): Content to animate
-- `duration` (number): Animation duration in ms
-- `delay` (number): Delay before starting
-- `config` (SpringConfig): Spring configuration
-- `style` (object): Additional styles
-- `className` (string): CSS class name
-- `as` (string): HTML element to render
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `children` | `ReactNode` | - | Content to animate |
+| `duration` | `number` | `500` | Animation duration (ms) |
+| `delay` | `number` | `0` | Delay before starting |
+| `config` | `SpringConfig` | `{}` | Spring configuration |
+| `style` | `React.CSSProperties` | `{}` | Additional styles |
+| `className` | `string` | `''` | CSS class name |
+| `as` | `keyof JSX.IntrinsicElements` | `'div'` | HTML element to render |
 
 ### `SlideIn` Component
 
@@ -138,18 +159,20 @@ A component for slide-in animations.
 
 #### Props
 
-- `children` (ReactNode): Content to animate
-- `direction` ('up' | 'down' | 'left' | 'right'): Slide direction
-- `distance` (number): Distance to slide in pixels
-- `delay` (number): Delay before starting
-- `config` (SpringConfig): Spring configuration
-- `style` (object): Additional styles
-- `className` (string): CSS class name
-- `as` (string): HTML element to render
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `children` | `ReactNode` | - | Content to animate |
+| `direction` | `'up' \| 'down' \| 'left' \| 'right'` | `'up'` | Slide direction |
+| `distance` | `number` | `50` | Distance to slide (px) |
+| `delay` | `number` | `0` | Delay before starting |
+| `config` | `SpringConfig` | `{}` | Spring configuration |
+| `style` | `React.CSSProperties` | `{}` | Additional styles |
+| `className` | `string` | `''` | CSS class name |
+| `as` | `keyof JSX.IntrinsicElements` | `'div'` | HTML element to render |
 
-## Spring Configuration
+## ⚙️ Spring Configuration
 
-### SpringConfig
+### SpringConfig Interface
 
 ```typescript
 interface SpringConfig {
@@ -174,7 +197,7 @@ springPresets.slow      // { tension: 40, friction: 10 }
 springPresets.default   // { tension: 170, friction: 26 }
 ```
 
-## Examples
+## 🎯 Examples
 
 ### Animated Counter
 
@@ -257,7 +280,7 @@ function CustomAnimation() {
 }
 ```
 
-### Animated List with Hover Effects
+### Interactive Hover Effects
 
 ```tsx
 import React, { useState } from 'react';
@@ -299,38 +322,209 @@ function AnimatedList() {
 }
 ```
 
-## Performance Tips
+### Loading Spinner
+
+```tsx
+import React from 'react';
+import { useSpring } from 'primotion';
+
+function LoadingSpinner() {
+  const { value } = useSpring({
+    from: 0,
+    to: 360,
+    config: { tension: 100, friction: 20 },
+    immediate: true,
+  });
+
+  return (
+    <div
+      style={{
+        width: '40px',
+        height: '40px',
+        border: '4px solid #f3f3f3',
+        borderTop: '4px solid #007bff',
+        borderRadius: '50%',
+        transform: `rotate(${value}deg)`,
+      }}
+    />
+  );
+}
+```
+
+### Progress Bar
+
+```tsx
+import React, { useState } from 'react';
+import { useSpring } from 'primotion';
+
+function ProgressBar() {
+  const [progress, setProgress] = useState(0);
+  const { value, animate } = useSpring({
+    from: 0,
+    to: progress,
+    config: { tension: 150, friction: 20 },
+  });
+
+  const updateProgress = (newProgress: number) => {
+    setProgress(newProgress);
+    animate(newProgress);
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          width: '300px',
+          height: '20px',
+          background: '#f0f0f0',
+          borderRadius: '10px',
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            width: `${value}%`,
+            height: '100%',
+            background: '#007bff',
+            transition: 'none',
+          }}
+        />
+      </div>
+      <button onClick={() => updateProgress(25)}>25%</button>
+      <button onClick={() => updateProgress(50)}>50%</button>
+      <button onClick={() => updateProgress(75)}>75%</button>
+      <button onClick={() => updateProgress(100)}>100%</button>
+    </div>
+  );
+}
+```
+
+### Card Flip Animation
+
+```tsx
+import React, { useState } from 'react';
+import { useSpring } from 'primotion';
+
+function AnimatedCard() {
+  const [isFlipped, setIsFlipped] = useState(false);
+  const { value, animate } = useSpring({
+    from: 0,
+    to: isFlipped ? 180 : 0,
+    config: { tension: 200, friction: 15 },
+  });
+
+  return (
+    <div
+      style={{
+        perspective: '1000px',
+        width: '200px',
+        height: '300px',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          transform: `rotateY(${value}deg)`,
+          transformStyle: 'preserve-3d',
+          transition: 'none',
+        }}
+      >
+        {/* Front side */}
+        <div
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            background: '#007bff',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '8px',
+            backfaceVisibility: 'hidden',
+          }}
+        >
+          Front
+        </div>
+        
+        {/* Back side */}
+        <div
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            background: '#28a745',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '8px',
+            transform: 'rotateY(180deg)',
+            backfaceVisibility: 'hidden',
+          }}
+        >
+          Back
+        </div>
+      </div>
+      
+      <button
+        onClick={() => {
+          setIsFlipped(!isFlipped);
+          animate(isFlipped ? 0 : 180);
+        }}
+        style={{ marginTop: '10px' }}
+      >
+        Flip Card
+      </button>
+    </div>
+  );
+}
+```
+
+## 🚀 Performance Tips
 
 1. **Use `immediate: false`** for animations that should start on user interaction
 2. **Batch animations** using delays for staggered effects
 3. **Clean up animations** by calling `stop()` in useEffect cleanup
 4. **Use `requestAnimationFrame`** (already handled by the library)
 5. **Avoid animating layout-heavy properties** like `width` and `height`
+6. **Use transform properties** for better performance
 
-## Browser Support
+## 🌐 Browser Support
 
 - React 16.8+ (for hooks support)
 - Modern browsers with `requestAnimationFrame` support
 - TypeScript 4.0+ (for type definitions)
 
-## License
+## 📄 License
 
-MIT License - see LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Changelog
+## 📝 Changelog
 
-### 1.0.0
+### 1.0.1
 - Initial release
 - Core spring animation engine
 - `useSpring` hook
 - `Spring`, `FadeIn`, `SlideIn` components
 - TypeScript support
-- Preset configurations 
+- Preset configurations
+
+## 🔗 Links
+
+- [GitHub Repository](https://github.com/yourusername/primotion)
+- [Issue Tracker](https://github.com/yourusername/primotion/issues)
+- [npm Package](https://www.npmjs.com/package/primotion)
+
+---
+
+Made with ❤️ by [Your Name] 

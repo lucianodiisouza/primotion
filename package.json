@@ -1,6 +1,6 @@
 {
   "name": "primotion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "A lightweight React library for adding spring animations to any element",
   "main": "dist/index.js",

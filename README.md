@@ -521,8 +521,8 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/yourusername/primotion)
-- [Issue Tracker](https://github.com/yourusername/primotion/issues)
+- [GitHub Repository](https://github.com/lucianodiisouza/primotion)
+- [Issue Tracker](https://github.com/lucianodiisouza/primotion/issues)
 - [npm Package](https://www.npmjs.com/package/primotion)
 
 ---

@@ -525,6 +525,3 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - [Issue Tracker](https://github.com/lucianodiisouza/primotion/issues)
 - [npm Package](https://www.npmjs.com/package/primotion)
 
----
-
-Made with ❤️ by [Your Name] 

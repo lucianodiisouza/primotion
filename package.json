@@ -1,6 +1,6 @@
 {
   "name": "primotion",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "A lightweight React library for adding spring animations to any element",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
     "typescript",
     "hooks"
   ],
-  "author": "Your Name",
+  "author": "Luciano dii Souza",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=16.8.0",

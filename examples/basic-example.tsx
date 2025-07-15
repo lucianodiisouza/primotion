@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSpring, Spring, FadeIn, SlideIn, springPresets } from 'primotion';
+import { useSpring, Spring, FadeIn, SlideIn, springPresets } from '../src';
 
 function BasicExample() {
   const [count, setCount] = useState(0);

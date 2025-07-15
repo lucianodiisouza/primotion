@@ -46,15 +46,10 @@ export const FadeIn = forwardRef<HTMLElement, FadeInProps>(
       opacity: value,
     };
 
-    return (
-      <Component
-        ref={ref}
-        style={animatedStyle}
-        className={className}
-        {...props}
-      >
-        {children}
-      </Component>
+    return React.createElement(
+      Component as any,
+      { ref, style: animatedStyle, className, ...props },
+      children
     );
   }
 );

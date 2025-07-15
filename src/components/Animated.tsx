@@ -26,30 +26,29 @@ export const Animated = forwardRef<HTMLElement, AnimatedComponentProps>(
     },
     ref
   ) => {
-    const springValues = useMemo(() => {
-      const values: { [key: string]: number } = {};
-      const animations: { [key: string]: any } = {};
-
-      Object.entries(springProps).forEach(([property, config]) => {
-        const spring = useSpring({
+    // Create individual springs for each property
+    const springs = useMemo(() => {
+      const springMap: { [key: string]: any } = {};
+      
+      Object.entries(springProps).forEach(([property, config]: [string, any]) => {
+        springMap[property] = useSpring({
           from: config.from || 0,
           to: config.to || 0,
           config: config.config || {},
           immediate: config.immediate || false,
           delay: config.delay || 0,
         });
-
-        values[property] = spring.value;
-        animations[property] = spring;
       });
-
-      return { values, animations };
+      
+      return springMap;
     }, [springProps]);
 
     const animatedStyle = useMemo(() => {
       const result = { ...style };
 
-      Object.entries(springValues.values).forEach(([property, value]) => {
+      Object.entries(springs).forEach(([property, spring]) => {
+        const value = spring.value;
+        
         if (property === 'opacity') {
           result.opacity = value;
         } else if (property === 'scale') {
@@ -66,17 +65,12 @@ export const Animated = forwardRef<HTMLElement, AnimatedComponentProps>(
       });
 
       return result;
-    }, [style, springValues.values]);
+    }, [style, springs]);
 
-    return (
-      <Component
-        ref={ref}
-        style={animatedStyle}
-        className={className}
-        {...props}
-      >
-        {children}
-      </Component>
+    return React.createElement(
+      Component as any,
+      { ref, style: animatedStyle, className, ...props },
+      children
     );
   }
 );

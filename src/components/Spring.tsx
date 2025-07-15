@@ -35,15 +35,10 @@ export const Spring = forwardRef<HTMLElement, SpringProps>(
       transform: `translateY(${value}px)`,
     };
 
-    return (
-      <Component
-        ref={ref}
-        style={animatedStyle}
-        className={className}
-        {...props}
-      >
-        {children}
-      </Component>
+    return React.createElement(
+      Component as any,
+      { ref, style: animatedStyle, className, ...props },
+      children
     );
   }
 );
